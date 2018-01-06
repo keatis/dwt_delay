@@ -1,4 +1,4 @@
-# stm32-usdelay
+# dwt_delay
 Microseconds delay lib for STM32 (or whatever ARM) based on DWT.
 
 Just include it in your project, call `DWT_Init()` and then use delays as needed.

@@ -1,8 +1,9 @@
 /*
- * Simple microseconds delay routine, utilizingARM's DWT
+ * Simple microseconds delay routine, utilizing ARM's DWT
  * (Data Watchpoint and Trace Unit) and HAL library.
- * Intended to use with gcc compiler, but can be easily edited
- * for any other C compiler.
+ * Intended to use with gcc compiler, but I hope it can be used
+ * with any other C compiler across the Universe (provided that
+ * ARM and CMSIS already invented) :)
  * Max K
  *
  *

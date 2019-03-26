@@ -37,28 +37,42 @@ void DWT_Init(void)
     }
 }
 
+#if DWT_DELAY_NEWBIE
+/**
+ * If you are a newbie and see magic in DWT_Delay, consider this more
+ * illustrative function, where you explicitly determine a counter
+ * value when delay should stop while keeping things in bounds of uint32.
+*/
+void DWT_Delay(uint32_t us) // microseconds
+{
+    uint32_t startTick  = DWT->CYCCNT,
+             targetTick = DWT->CYCCNT + us * (SystemCoreClock/1000000);
+
+    // Must check if target tick is out of bounds and overflowed
+    if (targetTick > startTick) {
+        // Not overflowed
+        while (DWT->CYCCNT < targetTick);
+    } else {
+        // Overflowed
+        while (DWT->CYCCNT > startTick || DWT->CYCCNT < targetTick);
+    }
+}
+#else
 /**
  * Delay routine itself.
  * Time is in microseconds (1/1000000th of a second), not to be
  * confused with millisecond (1/1000th).
  *
- * To avoid counter overflow, you can simply reset CYCCNT counter
- * before start, but it is unsafe if you use DWT_Delay in interrupt
- * routines. And definitely dont do this when using multithreading.
+ * No need to check an overflow. Let it just tick :)
  *
  * @param uint32_t us  Number of microseconds to delay for
  */
 void DWT_Delay(uint32_t us) // microseconds
 {
-    int32_t startTick  = DWT->CYCCNT,
-            targetTick = DWT->CYCCNT + us * (SystemCoreClock/1000000);
+    uint32_t startTick = DWT->CYCCNT,
+             delayTicks = us * (SystemCoreClock/1000000);
 
-    // Must check if target tick is overflowed
-    if (targetTick > startTick) {
-	// Not overflowed
-        while (DWT->CYCCNT < targetTick);
-    } else {
-	// Overflowed
-        while (DWT->CYCCNT > startTick || DWT->CYCCNT < targetTick);
-    }
+    while (DWT->CYCCNT - startTick < delayTicks);
 }
+
+#endif

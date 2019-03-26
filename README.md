@@ -23,7 +23,7 @@ void main (void)
 
     while(1) {
         // Delay for 42us
-        DWT_delay(42);
+        DWT_Delay(42);
     }
 
 }
@@ -35,3 +35,6 @@ This lib emerged.
 
 - **2019-02-19**
 Overflow check added.
+
+- **2019-03-26**
+Typo in definition fixed. Got back to short and simpler function.

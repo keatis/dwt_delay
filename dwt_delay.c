@@ -9,18 +9,10 @@
  *
  * This file is part of DWT_Delay package.
  * DWT_Delay is free software: you can redistribute it and/or modify it
- * under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License,
- * or (at your option) any later version.
- *
- * us_delay is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty
- * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See
- * the GNU General Public License for more details.
- * http://www.gnu.org/licenses/.
+ * under the terms of the MIT License
  */
 
-#include "stm32f1xx_hal.h"          // change to whatever MCU you use
+#include "stm32f1xx_hal.h"          // change to whatever MCU or Cortex-M core you use
 #include "dwt_delay.h"
 
 /**
@@ -42,8 +34,10 @@ void DWT_Init(void)
  * If you are a newbie and see magic in DWT_Delay, consider this more
  * illustrative function, where you explicitly determine a counter
  * value when delay should stop while keeping things in bounds of uint32.
+ *
+ * @param uint32_t us  Number of microseconds to delay for
 */
-void DWT_Delay(uint32_t us) // microseconds
+void DWT_Delay(uint32_t us)
 {
     uint32_t startTick  = DWT->CYCCNT,
              targetTick = DWT->CYCCNT + us * (SystemCoreClock/1000000);
@@ -67,7 +61,7 @@ void DWT_Delay(uint32_t us) // microseconds
  *
  * @param uint32_t us  Number of microseconds to delay for
  */
-void DWT_Delay(uint32_t us) // microseconds
+void DWT_Delay(uint32_t us)
 {
     uint32_t startTick = DWT->CYCCNT,
              delayTicks = us * (SystemCoreClock/1000000);

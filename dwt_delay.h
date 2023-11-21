@@ -9,25 +9,23 @@
  *
  * This file is part of DWT_Delay package.
  * DWT_Delay is free software: you can redistribute it and/or modify it
- * under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License,
- * or (at your option) any later version.
- *
- * us_delay is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty
- * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See
- * the GNU General Public License for more details.
- * http://www.gnu.org/licenses/.
+ * under the terms of the MIT License.
  */
 
-#include <stdint.h>
+#if defined(__CORTEX_M) && __CORTEX_M < 3U
+#warning DWT_Delay in useless in this project since DWT unit is not accessible \
+         by processor on Cortex-M0/0+/1 cores. You may want to implement microdelays \
+         with hardware timer.
+#endif
 
 #ifndef INC_DWT_DELAY_H_
 #define INC_DWT_DELAY_H_
+
+#include <stdint.h>
 
 #define DWT_DELAY_NEWBIE 0
 
 void DWT_Init(void);
 void DWT_Delay(uint32_t us);
 
-#endif /* INC_DWT_DELAY_DWT_DELAY_H_ */
+#endif /* INC_DWT_DELAY_H_ */
